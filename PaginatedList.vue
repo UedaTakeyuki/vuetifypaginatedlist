@@ -47,11 +47,20 @@
 </template>
 
 <script>
+var sprintf = require('sprintf-js').sprintf,
+    vsprintf = require('sprintf-js').vsprintf
 export default {
+    props: {
+//    'url',  // for get binds
+    name: String, // Display name
+    getIdToken: Function,
+    getTotalNumber: Function,
+    getItems: Function,
+  },
   data: function () {
     return {
       // items
-      items: "",
+      items: [{ID: "kerokero", Attr: {name: "kero"}}, {ID: "taro", Attr: {name: "kero"}}],
       totalNumber: 0,
       // for v-pagination, getBind()
       page:          1, // current page (start from 1, not 0)
@@ -116,29 +125,11 @@ export default {
     },
     updateItems: async function() {
       this.progressLinear = true
+
       const idToken = await this.getIdToken()
-      {
-        const url=sprintf("https://connect-srv.uedasoft.com/gettotalnumberofdevices/%s",idToken)
-        const res = await fetch(url)
-        if (res.status == 200) {
-          const data = await res.json()
-          console.log("getTotalNumberOfItems", data)
-          console.log("totalnumber", data.totalnumber)
-          this.totalNumber = data.totalnumber
-        }
-      }
-      {
-        const url=sprintf("https://connect-srv.uedasoft.com/getdevices/%d/%d/%s", 
-                          this.itemsPerPage, 
-                          (this.page -1)*this.itemsPerPage,
-                          idToken)
-        const res = await fetch(url)
-        if (res.status == 200) {
-          const data = await res.json()
-          console.log("result", data)
-          this.items = data.devices
-        }
-      }
+      this.totalNumber = await this.getTotalNumber(idToken)
+      this.items = await this.getItems(idToken, this.itemsPerPage, this.page)
+
       this.progressLinear = false
     },
   },
