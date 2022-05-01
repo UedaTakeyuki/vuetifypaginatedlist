@@ -1,0 +1,11 @@
+{
+  "name": "vuetifypaginatedlist",
+  "version": "1.0.0",
+  "description": "list component with paginated written with vuetify",
+  "main": "build-entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dr. Takeyuki UEDA",
+  "license": "ISC"
+}
