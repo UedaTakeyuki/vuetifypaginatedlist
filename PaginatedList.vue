@@ -81,41 +81,13 @@ export default {
 //      this.getItems()
       console.log("binds " + this.binds)
     },
+
     // item
     itemSelected: function(item){
-      if (! (item.ID in this.$devices)){
-        this.$devices[item.ID] ={response: "", lastConnectTime: 0}
-      }
-      // request last connect time of this device
-      this.requestLastConnectTime(item.ID)
-
-      console.log("item", item)
-      this.selectedItem = item
-      this.$refs.device.open(item)
-//      this.$refs.edit.refreshBind(bind) // not working here!
-    },
-    /**
-     * Request last connect time of the device
-     */
-    async requestLastConnectTime(id){
-      console.log("requestLastConnectTime called")
-      const idToken = await this.getIdToken()
-
-      // message
-      let message = {
-        type: "requestLastConnectTime", 
-        param: null, 
-        needResponseFlag: false, 
-        deviceID: id,
-        idToken: idToken
-      }
-      let messageJson = JSON.stringify(message)
-      console.log("messageJson", messageJson)
-
-      // send
-      this.$ws.send(messageJson)
+      this.$emit('itemSelected', item)
     },
 
+    // itemName
     itemName: function(item){
       if (item.Attr.name){
         return item.Attr.name
@@ -123,6 +95,8 @@ export default {
         return item.ID
       }
     },
+
+    // updateItem
     updateItems: async function() {
       this.progressLinear = true
 
