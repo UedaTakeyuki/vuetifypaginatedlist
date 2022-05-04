@@ -32,16 +32,19 @@
         ></v-pagination>
       </div>
       <v-list-item-group v-model="selectedItem" mandatory color="primary">
-        <v-list-item
-          v-for="item in items"
-          :key="item.ID"
-          @click="itemSelected(item)"
-        >
-          <v-list-item-content>
-            <v-list-item-title class="text-sm" v-text="itemName(item)" ></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        </v-list-item-group>
+        <!-- refer https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots -->
+        <slot name="list" v-bind:items="items">
+          <v-list-item
+            v-for="item in items"
+            :key="item.ID"
+            @click="itemSelected(item)"
+          >
+            <v-list-item-content>
+              <v-list-item-title class="text-sm" v-text="itemName(item)" ></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </slot>
+      </v-list-item-group>
     </v-list>
   </div>
 </template>
@@ -60,7 +63,7 @@ export default {
   data: function () {
     return {
       // items
-      items: [{ID: "kerokero", Attr: {name: "kero"}}, {ID: "taro", Attr: {name: "kero"}}],
+      items: [],
       totalNumber: 0,
       // for v-pagination, getBind()
       page:          1, // current page (start from 1, not 0)
