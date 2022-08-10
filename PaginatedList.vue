@@ -59,6 +59,7 @@ export default {
     getIdToken: Function,
     getTotalNumber: Function,
     getItems: Function,
+    requestOne: Function,
   },
   data: function () {
     return {
@@ -109,6 +110,21 @@ export default {
 
       this.progressLinear = false
     },
+
+    /**
+     * For Parent
+     * 
+     */
+    callRequestOne: async function() {
+      this.progressLinear = true
+
+      const idToken = await this.getIdToken()
+      item = await this.requestOne(idToken)
+      this.items = [item]
+
+      this.progressLinear = false
+    }
+
   },
   computed: {
     totalPages: function(){
