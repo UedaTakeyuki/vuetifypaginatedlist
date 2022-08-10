@@ -119,7 +119,7 @@ export default {
       this.progressLinear = true
 
       const idToken = await this.getIdToken()
-      item = await this.requestOne(idToken)
+      let item = await this.requestOne(idToken)
       this.items = [item]
 
       this.progressLinear = false
