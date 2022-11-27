@@ -60,6 +60,17 @@ export default {
     getTotalNumber: Function,
     getItems: Function,
     requestOne: Function,
+    itemName: {
+      type: Function,
+      default: function(item){
+        if (item){
+          return item.ID
+        } else {
+          return ""
+        }
+        return ""
+      }
+    }
   },
   data: function () {
     return {
@@ -90,7 +101,7 @@ export default {
     itemSelected: function(item){
       this.$emit('itemSelected', item)
     },
-
+/*
     // itemName
     itemName: function(item){
       if (item.Attr.name){
@@ -99,7 +110,7 @@ export default {
         return item.ID
       }
     },
-
+*/
     // updateItem
     updateItems: async function() {
       this.progressLinear = true
