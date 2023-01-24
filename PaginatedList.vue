@@ -4,7 +4,7 @@
       shaped
       dense
       style="max-height: 250px"
-      class="overflow-y-auto"
+      class="overflow-y-auto pa-0"
     >
       <v-subheader> {{name}} Items
         <v-spacer/>
