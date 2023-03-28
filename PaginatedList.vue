@@ -119,6 +119,12 @@ export default {
       this.totalNumber = await this.getTotalNumber(idToken)
       this.items = await this.getItems(idToken, this.itemsPerPage, this.page)
 
+      // set top item as selected item if array isn't blank
+      if (this.items.length != 0){
+        this.selectedItem = this.items[0]
+        this.itemSelected(this.selectedItem)
+      }
+
       this.progressLinear = false
     },
 
