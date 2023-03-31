@@ -1,51 +1,56 @@
 <template>
   <div>
-    <v-list
-      shaped
-      dense
-      style="max-height: 250px"
-      class="overflow-y-auto pa-0"
-    >
-      <v-subheader> {{name}} Items
-        <v-spacer/>
-        <v-btn 
-          x-small
-          class="grey--text"
-          to="/docs/users-manual/binds/bindslist"
-        >
-          guide
-        </v-btn>
-      </v-subheader>
-
-      <v-progress-linear
-        v-if="progressLinear"
-        indeterminate
-        color="primary"
-      ></v-progress-linear>
-
-      <div class="text-center">
-        <v-pagination
-          v-if="totalPages >= 2"
-          v-model="page"
-          :length="totalPages"
-          @input = "paginationSelected"
-        ></v-pagination>
-      </div>
-      <v-list-item-group v-model="selectedItem" mandatory color="primary">
-        <!-- refer https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots -->
-        <slot name="list" v-bind:items="items">
-          <v-list-item
-            v-for="item in items"
-            :key="item.ID"
-            @click="itemSelected(item)"
+    <div v-if="items">
+      <v-list
+        shaped
+        dense
+        style="max-height: 250px"
+        class="overflow-y-auto pa-0"
+      >
+        <v-subheader> {{name}} Items
+          <v-spacer/>
+          <v-btn 
+            x-small
+            class="grey--text"
+            to="/docs/users-manual/binds/bindslist"
           >
-            <v-list-item-content>
-              <v-list-item-title class="text-sm" v-text="itemName(item)" ></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </slot>
-      </v-list-item-group>
-    </v-list>
+            guide
+          </v-btn>
+        </v-subheader>
+
+        <v-progress-linear
+          v-if="progressLinear"
+          indeterminate
+          color="primary"
+        ></v-progress-linear>
+
+        <div class="text-center">
+          <v-pagination
+            v-if="totalPages >= 2"
+            v-model="page"
+            :length="totalPages"
+            @input = "paginationSelected"
+          ></v-pagination>
+        </div>
+        <v-list-item-group v-model="selectedItem" mandatory color="primary">
+          <!-- refer https://v2.vuejs.org/v2/guide/components-slots.html#Scoped-Slots -->
+          <slot name="list" v-bind:items="items">
+            <v-list-item
+              v-for="item in items"
+              :key="item.ID"
+              @click="itemSelected(item)"
+            >
+              <v-list-item-content>
+                <v-list-item-title class="text-sm" v-text="itemName(item)" ></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </slot>
+        </v-list-item-group>
+      </v-list>
+    </div>
+    <div v-else>
+      <p>No items found</p>
+    </div>
   </div>
 </template>
 
@@ -120,7 +125,7 @@ export default {
       this.items = await this.getItems(idToken, this.itemsPerPage, this.page)
 
       // set top item as selected item if array isn't blank
-      if (this.items.length != 0){
+      if (this.items !== null ){
         this.selectedItem = this.items[0]
         this.itemSelected(this.selectedItem)
       }
